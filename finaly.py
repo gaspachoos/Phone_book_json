@@ -160,3 +160,6 @@ while menu:
                 print("Неверный номер контакта.")
         else:
             print("Контакты не найдены.")
+    if choice == 6:
+        print("Выход из меню")
+        menu = False        
