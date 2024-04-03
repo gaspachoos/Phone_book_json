@@ -73,4 +73,28 @@ while menu:
                             found = True
                             break
             if not found:
-                print(f"Контакт с '{user_info}' не найден")            
+                print(f"Контакт с '{user_info}' не найден")  
+    if choice == 4:
+        try:
+            with open('users.json', 'r', encoding='utf-8') as file:
+                contacts = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            contacts = []
+
+        search_query = input("Введите имя контакта для удаления: ").lower()
+        if not contacts:
+            print("Список контактов пуст.")
+        else:
+            found_contact_indexes = []
+            for i, contact in enumerate(contacts):
+                if search_query in str(contact.get('user name', '')).lower():
+                    found_contact_indexes.append(i)
+
+            if found_contact_indexes:
+                for i in reversed(found_contact_indexes):
+                    deleted_contact = contacts.pop(i)
+                    print(f"Контакт '{deleted_contact['user name']}' удален.")
+                with open('users.json', 'w', encoding='utf-8') as file:
+                    json.dump(contacts, file, ensure_ascii=False, indent=2)
+            else:
+                print("Контакты не найдены.")                      
