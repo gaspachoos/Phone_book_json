@@ -1,7 +1,6 @@
 import json
 import os
 
-
 menu = True
 contacts = []
 while menu:
@@ -14,3 +13,4 @@ while menu:
         'Изменить контакт - нажмите 5: \n'
         'Выход из меню - нажмите 6 '
         )
+    choice = int(input('Введите число: '))
