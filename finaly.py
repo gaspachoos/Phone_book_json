@@ -98,3 +98,65 @@ while menu:
                     json.dump(contacts, file, ensure_ascii=False, indent=2)
             else:
                 print("Контакты не найдены.")                      
+    if choice == 5:
+        try:
+            with open('users.json', 'r', encoding='utf-8') as file:
+                contacts = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            contacts = []
+        search_query = input("Введите имя контакта для изменения: ").lower()
+        if not contacts:
+            print("Список контактов пуст.")
+        else:
+            found_contacts = []
+            indexes_to_modify = []
+
+        for i, contact in enumerate(contacts):
+            if search_query in str(contact.get('user name', '')).lower():
+                found_contacts.append(contact)
+                indexes_to_modify.append(i)
+            if found_contacts:
+             for i, contact in enumerate(found_contacts, 1):
+                print(f"{i}. {contact}")
+            index = int(input("Введите номер контакта для изменения: ")) - 1
+            if 0 <= index < len(found_contacts):
+                modified_contact = found_contacts[index]
+                print(f"Выбранный контакт: {modified_contact}")
+                print("Выберите, что хотите изменить:\n"
+                       "1. Имя пользователя\n"
+                       "2. Телефонный номер\n"
+                       "3. Электронная почта")
+                choice2 = input("Введите номер: ")
+                
+                if choice2 == "1":
+                    new_name = input("Введите новое имя: ")
+                    modified_contact["user name"] = new_name
+                elif choice2 == "2":
+                     modified_contact["user phone"] = []
+                     print("Введите новый телефонный номер: ")
+                     new_phone1 = input()   
+                     modified_contact["user phone"].append(new_phone1)
+                     while True:
+                            print('Хотите добавить еще телефонный номер к данному контакту?\n'
+                                  'Введите "да" или "нет" ')
+                            answer = input()
+                            if answer.lower() == 'нет':
+                                break
+                            elif answer.lower() == 'да':
+                              new_phone = input('Введите номер: ')
+                            modified_contact["user phone"].append(new_phone)
+                            with open('users.json', 'w', encoding='utf-8') as file:
+                                json.dump(contacts, file, ensure_ascii=False, indent=2)
+                elif choice2 == "3":
+                        new_email = input("Введите новую электронную почту: ")
+                        modified_contact["user email"] = new_email
+                else:
+                    print("Неверный выбор.")
+                contacts[indexes_to_modify[index]] = modified_contact
+                with open('users.json', 'w', encoding='utf-8') as file:
+                    json.dump(contacts, file, ensure_ascii=False, indent=2)
+                print(f"Контакт изменен: {modified_contact}")
+            else:
+                print("Неверный номер контакта.")
+        else:
+            print("Контакты не найдены.")
