@@ -55,3 +55,22 @@ while menu:
                 data = json.load(read)            
            for user in data:
                 print(user)          
+    if choice == 3:
+        if os.path.getsize('users.json') == 0:
+         print("Ваша телефонная книжка пустая")   
+        else:    
+            user_info = input("Введите элемент для поиска: ")
+            with open('users.json', 'r') as file:
+                    data = json.load(file)        
+            found = False
+            for line in data:
+                    if isinstance(line, dict):
+                        user_name = str(line.get('user name', '')).lower()
+                        user_phone = str(line.get('user phone', '')).lower()
+                        user_email = str(line.get('user email', '')).lower()
+                    if user_info in user_name or user_info in user_phone or user_info in user_email:
+                            print('name:'+" " +user_name+'\n','phone:'+" "+user_phone+'\n','email:'+ " "+user_email)
+                            found = True
+                            break
+            if not found:
+                print(f"Контакт с '{user_info}' не найден")            
