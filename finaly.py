@@ -47,3 +47,11 @@ while menu:
         contacts.append(user_info)
         with open('users.json', 'w', encoding='utf-8') as file:
             json.dump(contacts, file, ensure_ascii=False, indent=2)
+    if choice == 2:
+        if os.path.getsize('users.json') == 0:
+         print("Ваша телефонная книжка пустая")   
+        else:   
+           with open("users.json", "r") as read:
+                data = json.load(read)            
+           for user in data:
+                print(user)          
